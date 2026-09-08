@@ -15,7 +15,15 @@ function renderHome(){const d=daily();$('#waterCount').textContent=d.water;$('#c
 let journalDay=today;$('#journalDate').value=today;$('#journalDate').onchange=e=>{journalDay=e.target.value;renderJournal()};
 function choices(id,key){$(id).onclick=e=>{const b=e.target.closest('[data-value]');if(!b)return;(state.journal[journalDay]??={})[key]=b.dataset.value;$$(id+' button').forEach(x=>x.classList.toggle('selected',x===b))}}choices('#nightQuality','night');choices('#dayQuality','day');
 function renderJournal(){const j=state.journal[journalDay]||{};$('#nightNote').value=j.nightNote||'';$('#dayNote').value=j.dayNote||'';$$('#nightQuality button').forEach(b=>b.classList.toggle('selected',b.dataset.value===j.night));$$('#dayQuality button').forEach(b=>b.classList.toggle('selected',b.dataset.value===j.day))}$('#saveJournal').onclick=()=>{const j=state.journal[journalDay]??={};j.nightNote=$('#nightNote').value;j.dayNote=$('#dayNote').value;save()};
-function modal(open,dialog,form,fn){$(open).onclick=()=>{$(form).reset();if($(form).elements.date)$(form).elements.date.value=today;$(dialog).showModal()};$(form).onsubmit=e=>{if(e.submitter?.value==='cancel')return;e.preventDefault();fn(new FormData(e.target));save();$(dialog).close();render()}};
+function modal(open,dialog,form,fn){
+  const dlg=$(dialog),frm=$(form);
+  $(open).onclick=()=>{frm.reset();if(frm.elements.date)frm.elements.date.value=today;dlg.showModal()};
+  $(dialog+' [value="cancel"]').forEach(button=>{
+    button.type='button';
+    button.onclick=e=>{e.preventDefault();dlg.close()}
+  });
+  frm.onsubmit=e=>{e.preventDefault();fn(new FormData(e.target));save();dlg.close();render()}
+};
 modal('#openMeasure','#measureDialog','#measureForm',f=>{const x=Object.fromEntries(f);['weight','waist','hips','chest','thigh'].forEach(k=>x[k]=x[k]?+x[k]:null);state.measures.unshift(x);state.measures.sort((a,b)=>b.date.localeCompare(a.date))});modal('#openGoal','#goalDialog','#goalForm',f=>state.goals.unshift({title:f.get('title'),theme:f.get('theme'),recurrence:f.get('recurrence'),deadline:f.get('deadline'),reason:f.get('reason'),done:false,lastCompletedPeriod:null}));modal('#openSport','#sportDialog','#sportForm',f=>{state.sports.unshift(Object.fromEntries(f));state.sports.sort((a,b)=>b.date.localeCompare(a.date))});
 const empty=(a,b)=>`<div class="empty"><span>＋</span><p>${a}</p><small>${b}</small></div>`;
 function renderMeasures(){const l=state.measures,x=l[0],o=l.at(-1);$('#mWeight').textContent=x?.weight?x.weight+' kg':'—';$('#mWaist').textContent=x?.waist?x.waist+' cm':'—';$('#mHips').textContent=x?.hips?x.hips+' cm':'—';const d=x?.weight&&o?.weight&&l.length>1?x.weight-o.weight:null;$('#mChange').textContent=d===null?'—':`${d>0?'+':''}${d.toFixed(1)} kg`;$('#measureList').innerHTML=l.map((m,i)=>`<div class="data-row"><div><strong>${nice(m.date)}</strong><small>${[['Poids',m.weight,'kg'],['Taille',m.waist,'cm'],['Hanches',m.hips,'cm'],['Poitrine',m.chest,'cm'],['Cuisse',m.thigh,'cm']].filter(x=>x[1]).map(x=>x.join(' ')).join(' · ')}</small></div><button data-rm="${i}">×</button></div>`).join('')||empty('Aucun relevé','Ajoutez une première mesure quand vous le souhaitez.')}
