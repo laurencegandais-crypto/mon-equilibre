@@ -18,7 +18,7 @@ function renderJournal(){const j=state.journal[journalDay]||{};$('#nightNote').v
 function modal(open,dialog,form,fn){
   const dlg=$(dialog),frm=$(form);
   $(open).onclick=()=>{frm.reset();if(frm.elements.date)frm.elements.date.value=today;dlg.showModal()};
-  $(dialog+' [value="cancel"]').forEach(button=>{
+  document.querySelectorAll(dialog+' [value="cancel"]').forEach(button=>{
     button.type='button';
     button.onclick=e=>{e.preventDefault();dlg.close()}
   });
