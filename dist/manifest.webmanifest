@@ -1,0 +1,12 @@
+{
+  "name": "Mon équilibre",
+  "short_name": "Équilibre",
+  "description": "Mon journal personnel de bien-être",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FBF7F5",
+  "theme_color": "#3F243C",
+  "icons": [
+    {"src":"icon-mon-equilibre.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}
+  ]
+}
