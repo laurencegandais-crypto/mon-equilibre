@@ -47,3 +47,23 @@ select{font:inherit}
   .dialog-actions{position:sticky;bottom:calc(-22px - env(safe-area-inset-bottom));z-index:2;margin:20px -18px calc(-22px - env(safe-area-inset-bottom));padding:12px 18px calc(12px + env(safe-area-inset-bottom));background:white;border-top:1px solid var(--line)}
   .dialog-actions button{min-height:46px;flex:1}
 }
+
+/* Journal : historique visible et composition compacte sur iPhone. */
+html,body{overflow-x:hidden}.shell,main,.view{min-width:0;max-width:100%}
+.journal-date-label{display:grid;gap:7px;color:var(--muted);font-size:13px;font-weight:700}.journal-date-label input{width:180px;background:white}.journal-history{margin-bottom:20px;padding:17px 18px;background:white;border:1px solid var(--line);border-radius:18px}.journal-history-head{display:flex;align-items:center;justify-content:space-between;gap:12px}.journal-history-head>div{display:grid;gap:4px}.journal-history-head strong{font:400 18px Georgia,serif}.journal-history-list{display:flex;gap:9px;margin-top:14px;overflow-x:auto;overscroll-behavior-inline:contain;scroll-snap-type:x proximity;padding-bottom:3px}.journal-history-list::-webkit-scrollbar{display:none}.journal-history-item{flex:0 0 112px;min-height:76px;padding:10px;border:1px solid var(--line);border-radius:13px;background:var(--paper);color:var(--ink);display:grid;gap:2px;text-align:left;scroll-snap-align:start}.journal-history-item span{color:var(--wine);font-size:11px;font-weight:750;text-transform:capitalize}.journal-history-item strong{font:400 16px Georgia,serif}.journal-history-item small{color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.journal-history-item.active{background:var(--navy);border-color:var(--navy);color:white}.journal-history-item.active span,.journal-history-item.active small{color:#F0DDE3}.journal-history-empty{margin:0;color:var(--muted);font-size:13px}
+@media(max-width:600px){
+  .topbar{height:72px}.topbar h1{font-size:27px}.eyebrow{font-size:11px}
+  .journal-intro{margin-bottom:14px;gap:12px}.journal-intro h2{font-size:27px;margin:11px 0 0}.journal-intro p{display:none}
+  .journal-date-label{width:100%;grid-template-columns:auto 1fr;align-items:center;padding:8px 12px;background:white;border:1px solid var(--line);border-radius:13px}
+  .journal-date-label input{width:100%;min-width:0;border:0;padding:8px;background:transparent;text-align:right;box-shadow:none}
+  .journal-history{margin:0 0 14px;padding:14px;border-radius:16px}
+  .journal-history-head strong{font-size:17px}.journal-history-head .text-button{min-height:44px}
+  .journal-history-list{margin-right:-14px;padding-right:14px}
+  .journal-history-item{flex-basis:104px;min-height:72px}
+  .journal-grid{margin-top:14px;gap:14px}
+  .journal-panel{padding:19px 17px}.journal-panel .panel-icon{width:44px;height:44px}.journal-panel h3{font-size:24px;margin:7px 54px 18px 0}
+  .journal-panel label{margin:15px 0 8px}
+  .journal-panel .choice-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+  .journal-panel .choice-row button{min-width:0;padding:9px 4px;font-size:14px}
+  .journal-panel textarea{min-height:112px}
+}
